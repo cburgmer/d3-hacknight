@@ -26,8 +26,10 @@ var svg = d3.select("#body").append("svg:svg")
     .attr("height", 800)
     .on("mousedown", mousedown);
 
+var paths = svg.selectAll("path");
+
 d3.json("world-countries.json", function(collection) {
-  feature = svg.selectAll("path")
+  feature = paths
       .data(collection.features)
     .enter().append("svg:path")
       .attr("d", clip);
@@ -42,7 +44,7 @@ to_geojson = function(d) {
 
 var points;
 
-points = svg.selectAll("path")
+points = paths
 		.data([[-129.0574,37.419205]].map(to_geojson))
 	.enter().append("svg:path")
 		.each(function(d) { console.log(d); })
