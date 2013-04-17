@@ -31,20 +31,22 @@ d3.json("world-countries.json", function(collection) {
       .data(collection.features)
     .enter().append("svg:path")
       .attr("d", clip)
-   	.each(function(d) { console.log(d) });
 
   feature.append("svg:title")
       .text(function(d) { return d.properties.name; });
 });
 
 to_geojson = function(d) {
-	return { type: "Feature", geometry: { type: "Point", coordinates: d }};
+	return { type: "Feature", geometry: { type: "Point", coordinates: d }, id: "me"};
 }
-svg.selectAll("path")
-		.data([[-122.0574,37.419205]].map(to_geojson))
+
+var points;
+
+points = svg.selectAll("path")
+		.data([[-129.0574,37.419205]].map(to_geojson))
 	.enter().append("svg:path")
 		.each(function(d) { console.log(d); })
-		.attr("d", clip).attr("fill", "red");
+		.attr("d", clip);
 
 d3.select(window)
     .on("mousemove", mousemove)
@@ -82,6 +84,7 @@ function mouseup() {
 }
 
 function refresh(duration) {
+  (duration ? points.transition().duration(duration) : points).attr("d", clip);
   (duration ? feature.transition().duration(duration) : feature).attr("d", clip);
 }
 
