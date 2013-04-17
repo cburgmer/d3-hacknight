@@ -39,17 +39,18 @@ d3.json("world-countries.json", function(collection) {
 });
 
 to_geojson = function(d) {
-	return { type: "Feature", geometry: { type: "Point", coordinates: d }, id: "me"};
+	return { type: "Feature", geometry: { type: "Point", coordinates: d.location }, id: d.url };
 }
 
 var points;
 
-points = paths
-		.data([[-129.0574,37.419205]].map(to_geojson))
+d3.json("data/searches.json", function(searches) {
+	points = paths.data(searches.slice(0, 1000).filter(function(d){return d.location;}).map(to_geojson))
 	.enter().append("svg:path")
 		.each(function(d) { console.log(d); })
 		.attr("d", clip)
     .style("fill", "red");
+});
 
 d3.select(window)
     .on("mousemove", mousemove)
