@@ -30,16 +30,21 @@ d3.json("world-countries.json", function(collection) {
   feature = svg.selectAll("path")
       .data(collection.features)
     .enter().append("svg:path")
-      .attr("d", clip);
+      .attr("d", clip)
+   	.each(function(d) { console.log(d) });
 
   feature.append("svg:title")
       .text(function(d) { return d.properties.name; });
 });
 
-svg.selectAll("path").data([[-122.0574,37.419205]]).enter().append("svg:path").attr("d", function (d) {
-  console.log(d);
-  d3.geo.circle(20).origin(d[0], d[1]);
-}).attr("fill", "red");
+to_geojson = function(d) {
+	return { type: "Feature", geometry: { type: "Point", coordinates: d }};
+}
+svg.selectAll("path")
+		.data([[-122.0574,37.419205]].map(to_geojson))
+	.enter().append("svg:path")
+		.each(function(d) { console.log(d); })
+		.attr("d", clip).attr("fill", "red");
 
 d3.select(window)
     .on("mousemove", mousemove)
