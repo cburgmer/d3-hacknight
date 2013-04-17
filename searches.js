@@ -30,7 +30,7 @@ d3.json("world-countries.json", function(collection) {
   feature = svg.selectAll("path")
       .data(collection.features)
     .enter().append("svg:path")
-      .attr("d", clip)
+      .attr("d", clip);
 
   feature.append("svg:title")
       .text(function(d) { return d.properties.name; });
@@ -46,7 +46,8 @@ points = svg.selectAll("path")
 		.data([[-129.0574,37.419205]].map(to_geojson))
 	.enter().append("svg:path")
 		.each(function(d) { console.log(d); })
-		.attr("d", clip);
+		.attr("d", clip)
+    .style("fill", "red");
 
 d3.select(window)
     .on("mousemove", mousemove)
