@@ -1,35 +1,30 @@
 <html>
 <head>
     <script type="text/javascript" src="lib/d3.v3.min.js"></script>
+    <script type="text/javascript" src="lib/d3.geo.js"></script>
+    <style type="text/css">
+
+svg {
+  width: 1280px;
+  height: 800px;
+  pointer-events: all;
+}
+
+circle {
+  fill: #dbe4f0;
+}
+
+path {
+  fill: #aaa;
+  stroke: #fff;
+}
+
+    </style>
 </head>
 <body>
-<div id="viz"></div>
-<script type="text/javascript">
-    d3.text("control-immigration-q1-2011-main.csv", function(unparsedData) {
-        console.log("Test");
-        console.log("test2");
-        console.log("test3");
-    });
-
-    var sampleSVG = d3.select("#viz")
-            .append("svg")
-            .attr("width", 100)
-            .attr("height", 100);
-
-    sampleSVG.append("circle")
-            .style("stroke", "gray")
-            .style("fill", "white")
-            .attr("r", 40)
-            .attr("cx", 50)
-            .attr("cy", 50)
-            .on("mouseover", function () {
-                d3.select(this).style("fill", "aliceblue");
-            })
-            .on("mouseout", function () {
-                d3.select(this).style("fill", "white");
-            });
-
-</script>
+<div id="body"></div>
+<script type="text/javascript" src="searches.js"></script>
 <p>hello world</p>
+
 </body>
 </html>
