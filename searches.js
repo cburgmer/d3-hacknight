@@ -36,6 +36,11 @@ d3.json("world-countries.json", function(collection) {
       .text(function(d) { return d.properties.name; });
 });
 
+svg.selectAll("path").data([[-122.0574,37.419205]]).enter().append("svg:path").attr("d", function (d) {
+  console.log(d);
+  d3.geo.circle(20).origin(d[0], d[1]);
+}).attr("fill", "red");
+
 d3.select(window)
     .on("mousemove", mousemove)
     .on("mouseup", mouseup);
