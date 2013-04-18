@@ -26,10 +26,11 @@ var svg = d3.select("#body").append("svg:svg")
     .attr("height", 800)
     .on("mousedown", mousedown);
 
-var paths = svg.selectAll("path");
+var countries = svg.append("g").selectAll("path");
+var locations = svg.append("g").selectAll("path");
 
 d3.json("world-countries.json", function(collection) {
-  feature = paths
+  feature = countries
       .data(collection.features)
     .enter().append("svg:path")
       .attr("d", clip);
@@ -45,9 +46,8 @@ to_geojson = function(d) {
 var points;
 
 d3.json("data/searches.json", function(searches) {
-	points = paths.data(searches.slice(0, 1000).filter(function(d){return d.location;}).map(to_geojson))
+	points = locations.data(searches.slice(0, 1000).filter(function(d){return d.location;}).map(to_geojson))
 	.enter().append("svg:path")
-		.each(function(d) { console.log(d); })
 		.attr("d", clip)
     .style("fill", "red");
 });
