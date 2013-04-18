@@ -52,6 +52,24 @@ d3.json("data/searches.json", function(searches) {
     .style("fill", "red");
 });
 
+window.addEventListener("load", function() {
+	var rotation = d3.select("#rotate").node();
+	var rotationCallback;
+	rotation.onchange = function() {
+		if (rotation.checked) {
+			rotationCallback = window.setInterval(function() {
+				var currentOrigin = projection.origin();
+				var newOrigin = currentOrigin.map(function(val) { return val + 1; });
+				projection.origin(newOrigin);
+				circle.origin(newOrigin);
+				refresh();
+			}, 100);
+		} else {
+			clearInterval(rotationCallback);
+		}
+	}
+});
+
 d3.select(window)
     .on("mousemove", mousemove)
     .on("mouseup", mouseup);
