@@ -1,13 +1,11 @@
 var feature;
 
-var projection = d3.geo.azimuthal()
-    .scale(380)
-    .origin([-71.03,42.37])
-    .mode("orthographic")
-    .translate([640, 400]);
+var projection = d3.geo.orthographic()
+    .scale(300)
+    .translate([400, 300]);
 
-var circle = d3.geo.greatCircle()
-    .origin(projection.origin());
+var circle = d3.geo.circle()
+    .origin(projection.center());
 
 // TODO fix d3.geo.azimuthal to be consistent with scale
 var scale = {
