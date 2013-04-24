@@ -37,6 +37,11 @@ d3.json("world-countries.json", function(collection) {
       .text(function(d) { return d.properties.name; });
 });
 
+svg.append("g").append("path")
+	.datum(d3.geo.graticule())
+	.attr("class", "graticule")
+	.attr("d", path);
+
 to_geojson = function(d) {
 	return { type: "Feature", geometry: { type: "Point", coordinates: d.location }, id: d.url };
 }
