@@ -32,13 +32,13 @@ d3.json("world-countries.json", function(collection) {
   feature = countries
       .data(collection.features)
     .enter().append("svg:path")
-      .attr("d", clip);
+      .attr("d", path);
 
   feature.append("svg:title")
       .text(function(d) { return d.properties.name; });
 });
 
-svg.append("g").append("path")
+var coordinate_system = svg.append("g").append("path")
 	.datum(d3.geo.graticule())
 	.attr("class", "graticule")
 	.attr("d", path);
@@ -88,16 +88,15 @@ var m0,
 
 function mousedown() {
   m0 = [d3.event.pageX, d3.event.pageY];
-  o0 = projection.origin();
+  o0 = projection.center();
   d3.event.preventDefault();
 }
 
 function mousemove() {
   if (m0) {
     var m1 = [d3.event.pageX, d3.event.pageY],
-        o1 = [o0[0] + (m0[0] - m1[0]) / 8, o0[1] + (m1[1] - m0[1]) / 8];
-    projection.origin(o1);
-    circle.origin(o1)
+        o1 = [o0[0] + (m0[0] - m1[0]) / 8, -o0[1] + (m1[1] - m0[1]) / 8];
+    projection.rotate(o1);
     refresh();
   }
 }
@@ -110,10 +109,7 @@ function mouseup() {
 }
 
 function refresh(duration) {
-  (duration ? points.transition().duration(duration) : points).attr("d", clip);
-  (duration ? feature.transition().duration(duration) : feature).attr("d", clip);
-}
-
-function clip(d) {
-  return path(circle.clip(d));
+	feature.attr("d", path);
+	coordinate_system.attr("d", path);
+	points.attr("d", path);
 }
