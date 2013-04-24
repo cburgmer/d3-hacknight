@@ -1,6 +1,7 @@
 var feature;
 
 var projection = d3.geo.orthographic()
+    .clipAngle(90)
     .scale(300)
     .translate([400, 300]);
 
