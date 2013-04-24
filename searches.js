@@ -8,15 +8,6 @@ var projection = d3.geo.orthographic()
 var circle = d3.geo.circle()
     .origin(projection.center());
 
-// TODO fix d3.geo.azimuthal to be consistent with scale
-var scale = {
-  orthographic: 380,
-  stereographic: 380,
-  gnomonic: 380,
-  equidistant: 380 / Math.PI * 2,
-  equalarea: 380 / Math.SQRT2
-};
-
 var path = d3.geo.path()
     .projection(projection);
 
