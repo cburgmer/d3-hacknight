@@ -99,6 +99,13 @@ function mouseup() {
   }
 }
 
+svg.call(d3.behavior.zoom()
+	.scale(400)
+	.on("zoom", function() {
+		projection.scale(d3.event.scale);
+		refresh();
+	}));
+
 function refresh(duration) {
 	feature.attr("d", path);
 	coordinate_system.attr("d", path);
