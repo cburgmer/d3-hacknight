@@ -5,9 +5,6 @@ var projection = d3.geo.orthographic()
     .scale(300)
     .translate([400, 300]);
 
-var circle = d3.geo.circle()
-    .origin(projection.center());
-
 var path = d3.geo.path()
     .projection(projection);
 
