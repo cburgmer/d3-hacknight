@@ -1,16 +1,17 @@
 var feature;
 
+var w = function() { return document.body.clientWidth },
+    h = function() { return document.body.clientHeight };
+
 var projection = d3.geo.orthographic()
     .clipAngle(90)
-    .scale(300)
-    .translate([400, 300]);
+    .scale(Math.min(w(), h()) / 2);
 
 var path = d3.geo.path()
     .projection(projection);
 
-var svg = d3.select("#body").append("svg:svg")
-    .attr("width", 1280)
-    .attr("height", 800);
+var svg = d3.select("#body").append("svg:svg");
+resize();
 
 var countries = svg.append("g").selectAll("path");
 var locations = svg.append("g").selectAll("path");
@@ -65,7 +66,7 @@ svg.call(d3.behavior.drag()
 }));
 
 svg.call(d3.behavior.zoom()
-	.scale(400)
+	.scale(Math.min(w(), h()) / 2)
 	.on("zoom", function() {
 		projection.scale(d3.event.scale);
 		refresh();
@@ -76,3 +77,11 @@ function refresh(duration) {
 	(coordinate_system ? coordinate_system.attr("d", path) : null);
 	(points ? points.attr("d", path) : null);
 }
+
+function resize() {
+	projection.translate([w() / 2, h() / 2]);
+	d3.select("svg").attr("width", w()).attr("height", h());
+	refresh();
+}
+
+window.addEventListener("resize", resize);
