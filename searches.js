@@ -72,7 +72,7 @@ svg.call(d3.behavior.zoom()
 }));
 
 function refresh(duration) {
-	feature.attr("d", path);
-	coordinate_system.attr("d", path);
-	points.attr("d", path);
+	(feature ? feature.attr("d", path) : null);
+	(coordinate_system ? coordinate_system.attr("d", path) : null);
+	(points ? points.attr("d", path) : null);
 }
