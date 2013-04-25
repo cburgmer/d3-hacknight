@@ -13,8 +13,7 @@ var path = d3.geo.path()
 
 var svg = d3.select("#body").append("svg:svg")
     .attr("width", 1280)
-    .attr("height", 800)
-    .on("mousedown", mousedown);
+    .attr("height", 800);
 
 var countries = svg.append("g").selectAll("path");
 var locations = svg.append("g").selectAll("path");
@@ -61,39 +60,12 @@ window.addEventListener("load", function() {
 	});
 });
 
-d3.select(window)
-    .on("mousemove", mousemove)
-    .on("mouseup", mouseup);
-
-d3.select("select").on("change", function() {
-  projection.mode(this.value).scale(scale[this.value]);
-  refresh(750);
-});
-
-var m0,
-    o0;
-
-function mousedown() {
-  m0 = [d3.event.pageX, d3.event.pageY];
-  o0 = projection.center();
-  d3.event.preventDefault();
-}
-
-function mousemove() {
-  if (m0) {
-    var m1 = [d3.event.pageX, d3.event.pageY],
-        o1 = [o0[0] + (m0[0] - m1[0]) / 8, -o0[1] + (m1[1] - m0[1]) / 8];
-    projection.rotate(o1);
-    refresh();
-  }
-}
-
-function mouseup() {
-  if (m0) {
-    mousemove();
-    m0 = null;
-  }
-}
+svg.call(d3.behavior.drag()
+	.on("drag", function() {
+		var p = projection.invert([d3.event.x, d3.event.y]);
+		projection.rotate([-p[0] / 4, -p[1] / 4]);
+		refresh();
+}));
 
 svg.call(d3.behavior.zoom()
 	.scale(400)
