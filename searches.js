@@ -58,17 +58,10 @@ window.addEventListener("load", function() {
 	resize();
 });
 
-svg.call(d3.behavior.drag()
-	.on("drag", function() {
-		var p = projection.invert([d3.event.x, d3.event.y]);
-		projection.rotate([-p[0] / 4, -p[1] / 4]);
-		refresh();
-}));
-
 svg.call(d3.behavior.zoom()
 	.scale(Math.min(w(), h()) / 2)
 	.on("zoom", function() {
-		projection.scale(d3.event.scale);
+		projection.rotate(d3.event.translate);
 		refresh();
 }));
 
