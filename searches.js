@@ -43,7 +43,7 @@ var points;
 d3.json("data/searches.json", function(searches) {
 	points = locations.data(searches.slice(0, 1000).filter(function(d){return d.location;}).map(to_geojson))
 	.enter().append("svg:path")
-		.attr("d", clip)
+		.attr("d", path)
     .style("fill", "red");
 });
 
