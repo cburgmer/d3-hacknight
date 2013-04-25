@@ -80,7 +80,6 @@ function refresh(duration) {
 
 function resize() {
 	projection.translate([w() / 2, h() / 2]);
-	d3.select("svg").attr("width", w()).attr("height", h());
 	refresh();
 }
 
