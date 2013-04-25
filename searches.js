@@ -11,7 +11,6 @@ var path = d3.geo.path()
     .projection(projection);
 
 var svg = d3.select("#body").append("svg:svg");
-resize();
 
 var countries = svg.append("g").selectAll("path");
 var locations = svg.append("g").selectAll("path");
@@ -56,6 +55,7 @@ window.addEventListener("load", function() {
 			clearInterval(rotationCallback);
 		}
 	});
+	resize();
 });
 
 svg.call(d3.behavior.drag()
