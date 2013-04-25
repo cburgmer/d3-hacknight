@@ -48,7 +48,8 @@ window.addEventListener("load", function() {
 	d3.select("#rotate").on("change", function() {
 		if (this.checked) {
 			rotationCallback = window.setInterval(function() {
-				projection.rotate([projection.rotate()[0] + 1, 0]);
+				var r = projection.rotate();
+				projection.rotate([r[0] + 1, r[1], r[2]]);
 				refresh();
 			}, 100);
 		} else {
