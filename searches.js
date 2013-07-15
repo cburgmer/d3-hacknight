@@ -31,17 +31,21 @@ var coordinate_system = svg.append("g").append("path")
 	.attr("d", path);
 
 to_geojson = function(d) {
-	return { type: "Feature", geometry: { type: "Point", coordinates: d.location }, id: d.url };
+	return { type: "Feature", geometry: { type: "Point", coordinates: d }, id: d.url };
 }
 
 var points;
 
-d3.json("data/searches.json", function(searches) {
-	points = locations.data(searches.slice(0, 1000).filter(function(d){return d.location;}).map(to_geojson))
-	.enter().append("svg:path")
-		.attr("d", path)
-    .style("fill", "red");
-});
+var refreshLocations = function() {
+	d3.json("http://localhost:8080/location.json", function(searches) {
+		points = d3.select('#locations').selectAll('path').data(searches.map(to_geojson));
+		points.enter().append("svg:path")
+			.attr("d", path)
+			.style("fill", "red");
+		points.exit().remove();
+	});
+}
+refreshLocations();
 
 window.addEventListener("load", function() {
 	var rotationCallback;
