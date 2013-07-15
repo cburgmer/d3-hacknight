@@ -46,6 +46,7 @@ var refreshLocations = function() {
 	});
 }
 refreshLocations();
+window.setInterval(refreshLocations, 10 * 1000);
 
 window.addEventListener("load", function() {
 	var rotationCallback;
