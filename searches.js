@@ -12,8 +12,8 @@ var path = d3.geo.path()
 
 var svg = d3.select("#body").append("svg:svg");
 
-var countries = svg.append("g").selectAll("path");
-var locations = svg.append("g").selectAll("path");
+var countries = svg.append("g").attr('id', 'countries').selectAll("path");
+var locations = svg.append("g").attr('id', 'locations').selectAll("path");
 
 d3.json("world-countries.json", function(collection) {
   feature = countries
