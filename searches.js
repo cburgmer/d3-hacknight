@@ -30,18 +30,28 @@ var coordinate_system = svg.append("g").append("path")
 	.attr("class", "graticule")
 	.attr("d", path);
 
-to_geojson = function(d) {
-	return { type: "Feature", geometry: { type: "Point", coordinates: d }, id: d.url };
+var points;
+
+function projectedPoint(coll) {
+	coll
+		.attr("cx", function(d) { return projection(d)[0] })
+		.attr("cy", function(d) { return projection(d)[1] })
+		.attr("r", 4)
+		.style("fill", "red")
+		.style("display", pointVisibility);
 }
 
-var points;
+var center = projection.invert([w() / 2, h() / 2]);
+function pointVisibility(d) {
+	var offset = [Math.abs(d[0] - center[0]), Math.abs(d[1] - center[1])];
+	return Math.max(offset[0], offset[1]) > 90 ? 'none' : 'inline';
+}
 
 var refreshLocations = function() {
 	d3.json("http://localhost:8080/location.json", function(searches) {
-		points = d3.select('#locations').selectAll('path').data(searches.map(to_geojson));
-		points.enter().append("svg:path")
-			.attr("d", path)
-			.style("fill", "red");
+		points = d3.select('#locations').selectAll('circle').data(searches);
+		points.enter().append('circle')
+			.call(projectedPoint);
 		points.exit().remove();
 	});
 }
@@ -74,7 +84,8 @@ svg.call(d3.behavior.zoom()
 function refresh(duration) {
 	(feature ? feature.attr("d", path) : null);
 	(coordinate_system ? coordinate_system.attr("d", path) : null);
-	(points ? points.attr("d", path) : null);
+	center = projection.invert([w() / 2, h() / 2]);
+	(points ? points.call(projectedPoint) : null);
 }
 
 function resize() {
